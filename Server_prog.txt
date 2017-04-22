@@ -1,0 +1,54 @@
+import java.io.DataInputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.net.Socket;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+
+public class Server_prog extends Thread {
+
+	Socket s1;
+	
+	JTextArea textArea;
+	int myid;
+	public Server_prog(Socket S, JTextArea t,int id){
+		s1=S;
+		textArea = t;
+		myid=id;
+	}
+
+	public void run(){
+		try{
+			DataInputStream din=new DataInputStream(s1.getInputStream());
+			while(true){
+				String p=	din.readUTF();
+				String q=  textArea.getText();
+				
+				JFrame frame = new JFrame();
+			    String code = JOptionPane.showInputDialog(
+			        frame, 
+			        "Whats your name plz?(label)", 
+			        "Client name (title)", 
+			        JOptionPane.WARNING_MESSAGE
+			    );
+				
+				
+				DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+				Date dateobj = new Date();
+				String scc=df.format(dateobj);
+				
+				textArea.setText(q+"\n"+myid+"-"+code+"\n"+p+"----"+scc);
+				
+			
+		
+			}	
+		}catch(Exception e){
+		}
+
+	}
+}
